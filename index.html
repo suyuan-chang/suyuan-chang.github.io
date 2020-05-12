@@ -1,7 +1,42 @@
 <html>
 <body>
 <h1>
-HELLO the WORLD!
+  <span id="num1">1</span>+<span id="num2">2</span>=
+  <input id="result" style="font-size:30px;">
 </h1>
+<script>
+  const num1 = document.getElementById('num1');
+  const num2 = document.getElementById('num2');
+  const result = document.getElementById('result');
+  
+  let corrects = 0;
+  let count = 0;
+  
+  function makeQuestion() {
+    num1.innerText = Math.floor(Math.random() * 10);
+    num2.innerText = Math.floor(Math.random() * 10);
+    result.value = '';
+  }
+  
+  function checkAnswer() {
+    const answer = Number.parseInt(num1.innerText) + Number.parseInt(num2.innerText);
+    const value = Number.parseInt(result.value);
+    if (answer == value) {
+      console.log("Correct");
+      corrects++;
+    } else {
+      console.log("Wrong");
+    }
+    count++;
+  }
+  
+  makeQuestion();
+  result.addEventListener('keyup', function(e) {
+    if (e.key == 'Enter') {
+      checkAnswer();
+      makeQuestion();
+  });
+
+</script>
 </body>
 </html>
