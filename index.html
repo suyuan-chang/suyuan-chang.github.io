@@ -15,6 +15,8 @@
   
   let corrects = 0;
   let count = 0;
+  let edits = 0;
+  let has_edit = false;
   
   function makeQuestion() {
     num1.innerText = Math.floor(Math.random() * 10);
@@ -27,14 +29,21 @@
     const value = Number.parseInt(result.value);
     const line = num1.innerText + '+' + num2.innerText + '=' + result.value;
     if (answer == value) {
-      console.log("Correct");
-      log.innerHTML = log.innerHTML + line + '<br>\n';
       corrects++;
+      if (has_edit) {
+        edits++;
+        console.log("Edited");        
+        log.innerHTML = log.innerHTML + line + ' @ <br>\n';
+      } else {
+        console.log("Correct");
+        log.innerHTML = log.innerHTML + line + '<br>\n';
+      }
     } else {
-      log.innerHTML = log.innerHTML + line + ' X <br>\n';
       console.log("Wrong");
+      log.innerHTML = log.innerHTML + line + ' X <br>\n';
     }
     count++;
+    has_edit = false;
   }
   
   function showLog() {
@@ -43,6 +52,8 @@
   
   makeQuestion();
   result.addEventListener('keyup', function(e) {
+    if (e.key == 'Backspace')
+      has_edit = true;
     if (e.key == 'Enter') {
       checkAnswer();
       if (count < 50)
