@@ -1,5 +1,8 @@
 <html>
 <body>
+<p>
+  <span id="progress"></span>
+</p>
 <h1>
   <span id="num1">1</span>-<span id="num2">2</span>=
   <input id="result" style="font-size:30px;">
@@ -12,9 +15,11 @@
   const num2 = document.getElementById('num2');
   const result = document.getElementById('result');
   const log = document.getElementById('log');
+  const progress = document.getElementById('progress');
   
   let corrects = 0;
   let count = 0;
+  let totalCount = 50;
   let edits = 0;
   let has_edit = false;
   
@@ -24,6 +29,7 @@
     num1.innerText = a + b;
     num2.innerText = a;
     result.value = '';
+    progress.innerText = (count+1) + ' of ' + totalCount;
   }
   
   function checkAnswer() {
@@ -58,7 +64,7 @@
       has_edit = true;
     if (e.key == 'Enter') {
       checkAnswer();
-      if (count < 50)
+      if (count < totalCount)
         makeQuestion();
       else
         showLog();
