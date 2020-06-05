@@ -1,0 +1,68 @@
+<html>
+<body>
+<h1>
+  <span id="num1">1</span>+<span id="num2">2</span>=
+  <input id="result" style="font-size:30px;">
+</h1>
+<p>
+<div id="log" style="visibility:hidden">
+</div>
+<script>
+  const num1 = document.getElementById('num1');
+  const num2 = document.getElementById('num2');
+  const result = document.getElementById('result');
+  const log = document.getElementById('log');
+  
+  let corrects = 0;
+  let count = 0;
+  let edits = 0;
+  let has_edit = false;
+  
+  function makeQuestion() {
+    num1.innerText = Math.floor(Math.random() * 10);
+    num2.innerText = Math.floor(Math.random() * 10);
+    result.value = '';
+  }
+  
+  function checkAnswer() {
+    const answer = Number.parseInt(num1.innerText) + Number.parseInt(num2.innerText);
+    const value = Number.parseInt(result.value);
+    const line = num1.innerText + '+' + num2.innerText + '=' + result.value;
+    if (answer == value) {
+      corrects++;
+      if (has_edit) {
+        edits++;
+        console.log("Edited");        
+        log.innerHTML = log.innerHTML + line + ' @ <br>\n';
+      } else {
+        console.log("Correct");
+        log.innerHTML = log.innerHTML + line + '<br>\n';
+      }
+    } else {
+      console.log("Wrong");
+      log.innerHTML = log.innerHTML + line + ' X <br>\n';
+    }
+    count++;
+    has_edit = false;
+  }
+  
+  function showLog() {
+    log.style.visibility = 'visible';
+  }
+  
+  makeQuestion();
+  result.addEventListener('keyup', function(e) {
+    if (e.key == 'Backspace')
+      has_edit = true;
+    if (e.key == 'Enter') {
+      checkAnswer();
+      if (count < 50)
+        makeQuestion();
+      else
+        showLog();
+    }
+  });
+
+</script>
+</body>
+</html>
