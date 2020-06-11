@@ -22,6 +22,7 @@
   let totalCount = 50;
   let edits = 0;
   let has_edit = false;
+  let start_time;
   
   function makeQuestion() {
     const a = Math.floor(Math.random() * 10);
@@ -55,11 +56,18 @@
   }
   
   function showLog() {
+    const end_time = new Date().getTime();
+    const time = end_time - start_time;
+    start_time = undefined;
+    log.innerHTML = 'Total time ' + time / 1000 + ' seconds.<br>\n' + log.innerHTML;
+
     log.style.visibility = 'visible';
   }
   
   makeQuestion();
   result.addEventListener('keyup', function(e) {
+    if (start_time === undefined)
+      start_time = new Date().getTime();
     if (e.key == 'Backspace')
       has_edit = true;
     if (e.key == 'Enter') {
