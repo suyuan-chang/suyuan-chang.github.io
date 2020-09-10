@@ -1,0 +1,73 @@
+<html>
+<body>
+<p>
+  <span id="progress"></span>
+</p>
+<h1>
+  <span id="num1">1</span>-<span id="num2">2</span>=
+  <input id="result" style="font-size:30px;">
+</h1>
+<p>
+<div id="log" style="visibility:hidden">
+</div>
+<script>
+  const num1 = document.getElementById('num1');
+  const num2 = document.getElementById('num2');
+  const result = document.getElementById('result');
+  const log = document.getElementById('log');
+  const progress = document.getElementById('progress');
+  
+  let corrects = 0;
+  let count = 0;
+  let totalCount = 10;
+  let start_time;
+  
+  function makeQuestion() {
+    const a = Math.floor(Math.random() * 100);
+    const b = Math.floor(Math.random() * 100);
+    num1.innerText = a + b;
+    num2.innerText = a;
+    result.value = '';
+    progress.innerText = corrects + ' of ' + totalCount;
+  }
+  
+  function checkAnswer() {
+    const answer = Number.parseInt(num1.innerText) - Number.parseInt(num2.innerText);
+    const value = Number.parseInt(result.value);
+    const line = num1.innerText + '-' + num2.innerText + '=' + result.value;
+    if (answer == value) {
+      corrects++;
+      console.log("Correct");
+      log.innerHTML = log.innerHTML + line + '<br>\n';
+    } else {
+      console.log("Wrong");
+      log.innerHTML = log.innerHTML + line + ' X <br>\n';
+    }
+    count++;
+  }
+  
+  function showLog() {
+    const end_time = new Date().getTime();
+    const time = end_time - start_time;
+    start_time = undefined;
+    log.innerHTML = 'Total time ' + time / 1000 + ' seconds.<br>\n' + log.innerHTML;
+
+    log.style.visibility = 'visible';
+  }
+  
+  makeQuestion();
+  result.addEventListener('keyup', function(e) {
+    if (start_time === undefined)
+      start_time = new Date().getTime();
+    if (e.key == 'Enter') {
+      checkAnswer();
+      if (corrects < totalCount)
+        makeQuestion();
+      else
+        showLog();
+    }
+  });
+
+</script>
+</body>
+</html>
