@@ -66,10 +66,18 @@
   
   makeQuestion();
   result.addEventListener('keyup', function(e) {
-    if (start_time === undefined)
+    if (start_time === undefined) {
       start_time = new Date().getTime();
-    if (e.key == 'Backspace')
-      has_edit = true;
+    }
+    if (e.key == 'Backspace') {
+      // has_edit = true;
+      // NOTE: Treat backspace as wrong answer.
+      count++;
+      if (count < totalCount)
+        makeQuestion();
+      else
+        showLog();
+    }
     if (e.key == 'Enter') {
       checkAnswer();
       if (count < totalCount)
