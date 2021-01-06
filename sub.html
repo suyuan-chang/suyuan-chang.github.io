@@ -72,6 +72,8 @@
     if (e.key == 'Backspace') {
       // has_edit = true;
       // NOTE: Treat backspace as wrong answer.
+      const line = num1.innerText + '-' + num2.innerText + '= ';
+      log.innerHTML = log.innerHTML + line + ' X <br>\n';
       count++;
       if (count < totalCount)
         makeQuestion();
